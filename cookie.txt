@@ -1,0 +1,1 @@
+# Paste your Facebook cookie here if not using appstate.json

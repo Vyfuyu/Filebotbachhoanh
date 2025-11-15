@@ -14,6 +14,8 @@ This is a Vietnamese Facebook Messenger bot built with Node.js that provides aut
 - Fixed message deletion bug in menu module (now properly deletes both menu and user reply)
 - Added 9 modules across multiple categories (Hệ thống, Trò chơi, Công cụ)
 - Configured workflow for bot execution
+- Redesigned menu UI with cleaner layout using 〘〙➥ characters
+- Removed media management instructions from main menu for cleaner appearance
 
 # User Preferences
 

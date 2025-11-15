@@ -36,25 +36,17 @@ module.exports = {
         const categories = getCategories(commands);
         const media = loadMedia();
         
-        let msg = '╔════════════════════════╗\n';
-        msg += '║      📋 MENU DANH MỤC     ║\n';
-        msg += '╚════════════════════════╝\n\n';
+        let msg = '〘 📋 𝗠𝗘𝗡𝗨 𝗗𝗔𝗡𝗛 𝗠𝗨̣𝗖 〙\n\n';
         
         const categoryList = Object.keys(categories);
         categoryList.forEach((cat, index) => {
             const count = categories[cat].length;
-            msg += `${index + 1}. ${getCategoryIcon(cat)} ${cat} (${count} lệnh)\n`;
+            msg += `${index + 1}. 〘 ${getCategoryIcon(cat)} ${cat} 〙➥ ${count} lệnh\n`;
         });
         
-        msg += '\n━━━━━━━━━━━━━━━━━━━━━━\n';
-        msg += '💡 Reply số để xem chi tiết danh mục\n';
-        msg += `📌 Dùng %menu all để xem tất cả\n`;
-        msg += `🎬 Dùng %menu addvideo <link> để thêm video\n`;
-        msg += `🖼️ Dùng %menu addimage <link> để thêm ảnh\n`;
-        msg += `🗑️ Dùng %menu delvideo <số> để xóa video\n`;
-        msg += `📊 Dùng %menu listmedia để xem media\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `📊 Tổng: ${commands.size} lệnh | ${categoryList.length} danh mục`;
+        msg += `\n➥ Reply số để xem danh mục\n`;
+        msg += `➥ Dùng %menu all xem tất cả\n`;
+        msg += `\n📊 Tổng: ${commands.size} lệnh • ${categoryList.length} danh mục`;
 
         const attachment = await getRandomMedia(api, media);
         
@@ -167,19 +159,16 @@ function showCategoryCommands(api, threadID, category, commands) {
         return api.sendMessage('❌ Danh mục này chưa có lệnh nào!', threadID);
     }
     
-    let msg = `╔════════════════════════╗\n`;
-    msg += `║  ${getCategoryIcon(category)} ${category.toUpperCase()}  ║\n`;
-    msg += `╚════════════════════════╝\n\n`;
+    let msg = `〘 ${getCategoryIcon(category)} ${category.toUpperCase()} 〙\n\n`;
     
     cmds.forEach((cmd, index) => {
-        msg += `${index + 1}. %${cmd.config.name}\n`;
-        msg += `   📝 ${cmd.config.description || 'Không có mô tả'}\n`;
-        if (cmd.config.adminOnly) msg += `   👑 Chỉ Admin\n`;
-        msg += '\n';
+        msg += `${index + 1}. 〘 %${cmd.config.name} 〙\n`;
+        msg += `   ➥ ${cmd.config.description || 'Không có mô tả'}`;
+        if (cmd.config.adminOnly) msg += ` 👑`;
+        msg += '\n\n';
     });
     
-    msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-    msg += `📊 Tổng: ${cmds.length} lệnh trong danh mục ${category}`;
+    msg += `📊 ${cmds.length} lệnh`;
     
     api.sendMessage(msg, threadID);
 }
@@ -187,21 +176,18 @@ function showCategoryCommands(api, threadID, category, commands) {
 function showAllCommands(api, threadID, commands) {
     const categories = getCategories(commands);
     
-    let msg = '╔════════════════════════╗\n';
-    msg += '║   📋 TẤT CẢ LỆNH BOT   ║\n';
-    msg += '╚════════════════════════╝\n\n';
+    let msg = '〘 📋 𝗧𝗔̂́𝗧 𝗖𝗔̉ 𝗟𝗘̣̂𝗡𝗛 〙\n\n';
     
     Object.keys(categories).forEach(category => {
-        msg += `${getCategoryIcon(category)} ${category}:\n`;
+        msg += `〘 ${getCategoryIcon(category)} ${category} 〙\n`;
         categories[category].forEach(cmd => {
-            msg += `  • %${cmd.config.name}`;
+            msg += `  ➥ %${cmd.config.name}`;
             if (cmd.config.adminOnly) msg += ' 👑';
             msg += '\n';
         });
         msg += '\n';
     });
     
-    msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
     msg += `📊 Tổng: ${commands.size} lệnh`;
     
     api.sendMessage(msg, threadID);

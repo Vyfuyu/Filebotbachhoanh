@@ -16,6 +16,9 @@ This is a Vietnamese Facebook Messenger bot built with Node.js that provides aut
 - Configured workflow for bot execution
 - Redesigned menu UI with cleaner layout using 〘〙➥ characters
 - Removed media management instructions from main menu for cleaner appearance
+- Added setprefix module to allow admin to change bot prefix dynamically
+- Updated addvideo/addimage to support replying to media attachments (no link required)
+- Implemented anti-checkpoint configuration to prevent Facebook account lockout
 
 # User Preferences
 

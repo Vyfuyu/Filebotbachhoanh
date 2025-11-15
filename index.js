@@ -86,7 +86,6 @@ login(credentials, (err, api) => {
 
     api.setOptions({
         listenEvents: true,
-        logLevel: 'silent',
         selfListen: false,
         updatePresence: false,
         autoMarkRead: false,

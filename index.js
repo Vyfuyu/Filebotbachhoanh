@@ -88,10 +88,19 @@ login(credentials, (err, api) => {
         listenEvents: true,
         logLevel: 'silent',
         selfListen: false,
-        updatePresence: true,
+        updatePresence: false,
         autoMarkRead: false,
-        forceLogin: true
+        autoMarkDelivery: false,
+        forceLogin: true,
+        online: false,
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     });
+    
+    console.log('[ANTI-CHECKPOINT] Đã kích hoạt chế độ chống checkpoint');
+    console.log('[ANTI-CHECKPOINT] • Auto Mark Read: OFF');
+    console.log('[ANTI-CHECKPOINT] • Auto Mark Delivery: OFF');
+    console.log('[ANTI-CHECKPOINT] • Update Presence: OFF');
+    console.log('[ANTI-CHECKPOINT] • Force Login: ON\n');
 
     const listenEmitter = api.listenMqtt((err, event) => {
         if (err) {

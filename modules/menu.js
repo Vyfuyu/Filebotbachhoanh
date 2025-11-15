@@ -222,25 +222,39 @@ async function getRandomMedia(api, media) {
 }
 
 function handleAddMedia(api, event, args) {
-    const { threadID, senderID } = event;
+    const { threadID, senderID, messageReply } = event;
     const config = JSON.parse(fs.readFileSync('./data/config.json', 'utf8'));
     
     if (senderID !== config.adminID) {
         return api.sendMessage('❌ Chỉ admin mới có thể thêm media!', threadID);
     }
     
-    const url = args[1];
-    if (!url) {
-        return api.sendMessage('❌ Vui lòng nhập link ảnh/video!\nVí dụ: %menu addvideo <link>', threadID);
-    }
-    
     const media = loadMedia();
     const type = args[0] === 'addvideo' ? 'videos' : 'images';
+    let url = null;
+    
+    if (messageReply && messageReply.attachments && messageReply.attachments.length > 0) {
+        const attachment = messageReply.attachments[0];
+        
+        if (type === 'videos' && attachment.type === 'video') {
+            url = attachment.url;
+        } else if (type === 'images' && (attachment.type === 'photo' || attachment.type === 'image')) {
+            url = attachment.url || attachment.hiresUrl || attachment.largePreviewUrl;
+        } else {
+            return api.sendMessage(`❌ Vui lòng reply vào ${type === 'videos' ? 'video' : 'ảnh'} để thêm!`, threadID);
+        }
+    } else {
+        url = args[1];
+    }
+    
+    if (!url) {
+        return api.sendMessage(`❌ Vui lòng:\n1. Reply vào ${type === 'videos' ? 'video' : 'ảnh'} với lệnh %menu ${args[0]}, hoặc\n2. Dùng: %menu ${args[0]} <link>`, threadID);
+    }
     
     media[type].push(url);
     saveMedia(media);
     
-    api.sendMessage(`✅ Đã thêm ${type === 'videos' ? 'video' : 'ảnh'} vào menu!\nTổng: ${media[type].length} ${type === 'videos' ? 'video' : 'ảnh'}`, threadID);
+    api.sendMessage(`✅ Đã thêm ${type === 'videos' ? 'video' : 'ảnh'} vào menu!\n📊 Tổng: ${media[type].length} ${type === 'videos' ? 'video' : 'ảnh'}`, threadID);
 }
 
 function handleDeleteMedia(api, event, args) {
